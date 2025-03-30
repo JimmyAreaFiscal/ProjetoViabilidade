@@ -13,27 +13,21 @@ class TransformadorDadosCnpj:
     def __init__(self, engine: Engine, mes_referencia: str):
         self.engine = engine
         self.mes_referencia = mes_referencia
-        self.dados_transformados = {}
 
-    def transformar(self) -> dict:
+
+    def transformar(self, entrada: pd.DataFrame) -> dict:
         # 1. Carrega os dados da staging
-        estabelecimentos = pd.read_sql("SELECT * FROM Estabelecimentos", self.engine)
-        empresas = pd.read_sql("SELECT * FROM Empresas", self.engine)
-        simples = pd.read_sql("SELECT * FROM Simples", self.engine)
 
         # 2. Junta os dados
         base = (
-            estabelecimentos
-            .merge(empresas, on='cnpj_basico', how='left', suffixes=('', '_emp'))
-            .merge(simples, on='cnpj_basico', how='left', suffixes=('', '_simples'))
+            entrada
         )
 
         # 3. Gera dimensões
         dim_tempo = pd.DataFrame([{
             'mes': self.mes_referencia[5:],
-            'ano': self.mes_referencia[:4],
-            'mes_referencia': self.mes_referencia
-        }])
+            'ano': self.mes_referencia[:4]
+            }])
 
         dim_estado = (
             base[['uf']]
@@ -53,13 +47,10 @@ class TransformadorDadosCnpj:
 
         # 4. Fato principal
         fato_empresas = base[[
-            'cnpj_basico', 'capital_social_str', 'porte_empresa',
+            'capital_social_str', 
             'cnae_fiscal', 'municipio', 'uf'
         ]].copy()
 
-        fato_empresas['capital_social'] = pd.to_numeric(
-            fato_empresas['capital_social_str'].str.replace(',', '.'), errors='coerce'
-        )
         fato_empresas['quantidade_empresas'] = 1
         fato_empresas['mes_referencia'] = self.mes_referencia
 

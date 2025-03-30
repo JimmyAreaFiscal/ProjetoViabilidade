@@ -37,7 +37,7 @@ class ImportadorCnpj:
 
             # Quebrando o link para verificar se é Empresa, Estabelecimento ou Simples (tabelas a serem processadas)
             nome_tabela = href.split('/')[-1]
-            condicao = nome_tabela.startswith('Empresa') or nome_tabela.startswith('Estabelecimentos') or nome_tabela.startswith('Simples')
+            condicao = nome_tabela.startswith('Estabelecimentos')
             if href.endswith(".zip") and condicao:
                 self.links.append(self.URL + href)
 
