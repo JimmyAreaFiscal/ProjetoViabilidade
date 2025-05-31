@@ -1,5 +1,8 @@
 # Projeto Viabilidade
 
+Link Youtube: https://youtu.be/_4BxcOe5a6c
+
+<video> https://youtu.be/_4BxcOe5a6c </video>
 
 Este projeto é um trabalho de alunos do Mackenzie EAD (Curso de Ciência de dados), com o intuito de realizar o processamento de dados abertos de CNPJ e de dados macroeconômicos, com a intenção de criar insights sobre o ambiente econômico no país.
 Para alcançar o objetivo, foi proposta a adoção da metodologia CRISP-DM (Cross Industry Standard Pattern - Data Mining), conforme a seguir. Ressalta-se que as fases de Preparação de Dados, Análise Exploratória (equivalente à modelagem) e Resultado se encontram no notebook "analise.ipynb", presentes nesse repositório.
